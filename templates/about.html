@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Luxe Reservations</title>
+  <style>
+    :root {
+      --beige: #e8e0d0;
+      --off-white: #f7f5f0;
+      --dark-beige: #d0c7b6;
+      --light-black: #333333;
+      --black: #1a1a1a;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Libre Baskerville', 'Times New Roman', serif;
+    }
+    
+    body {
+      background-color: var(--off-white);
+      color: var(--black);
+      line-height: 1.6;
+    }
+    
+    header {
+      background-color: var(--black);
+      color: var(--off-white);
+      padding: 1.5rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    
+    .logo span {
+      color: var(--beige);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    nav li {
+      margin-left: 2rem;
+    }
+    
+    nav a {
+      color: var(--off-white);
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+    
+    nav a:hover {
+      color: var(--beige);
+    }
+    
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--off-white);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .hero {
+      background-color: var(--beige);
+      padding: 6rem 2rem;
+      text-align: center;
+    }
+    
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--black);
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      color: var(--light-black);
+    }
+    
+    .main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+    
+    .section {
+      margin-bottom: 4rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+    
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .section h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--black);
+      border-bottom: 2px solid var(--dark-beige);
+      padding-bottom: 0.5rem;
+      display: inline-block;
+    }
+    
+    .two-column {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .column {
+      flex: 1;
+    }
+    
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .team-member {
+      background-color: var(--beige);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+    
+    .team-member:hover {
+      transform: translateY(-5px);
+    }
+    
+    .team-img {
+      height: 250px;
+      width: 100%;
+      background-color: var(--dark-beige);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--black);
+      font-size: 3rem;
+      opacity: 0.7;
+    }
+    
+    .team-info {
+      padding: 1.5rem;
+    }
+    
+    .team-info h3 {
+      margin-bottom: 0.5rem;
+    }
+    
+    .team-info p {
+      color: var(--light-black);
+      font-size: 0.9rem;
+    }
+    
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+      margin-top: 2rem;
+    }
+    
+    .stat-item {
+      flex: 1;
+      padding: 2rem;
+      background-color: var(--beige);
+      border-radius: 8px;
+      margin: 0 1rem;
+      transition: transform 0.3s;
+    }
+    
+    .stat-item:hover {
+      transform: translateY(-5px);
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--black);
+    }
+    
+    .cta {
+      background-color: var(--beige);
+      text-align: center;
+      padding: 4rem 2rem;
+      margin-top: 2rem;
+    }
+    
+    .cta h2 {
+      margin-bottom: 1.5rem;
+    }
+    
+    .btn {
+      display: inline-block;
+      background-color: var(--black);
+      color: var(--off-white);
+      padding: 0.8rem 1.5rem;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+    
+    .btn:hover {
+      background-color: var(--light-black);
+    }
+    
+    footer {
+      background-color: var(--black);
+      color: var(--off-white);
+      padding: 3rem 0;
+    }
+    
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    
+    .footer-column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      color: var(--beige);
+    }
+    
+    .footer-column ul {
+      list-style: none;
+    }
+    
+    .footer-column li {
+      margin-bottom: 0.8rem;
+    }
+    
+    .footer-column a {
+      color: var(--off-white);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-column a:hover {
+      color: var(--beige);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .social-links a {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background-color: var(--light-black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+    }
+    
+    .social-links a:hover {
+      background-color: var(--beige);
+      color: var(--black);
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 2rem;
+      margin-top: 2rem;
+      border-top: 1px solid var(--light-black);
+      font-size: 0.9rem;
+      color: var(--dark-beige);
+    }
+    
+    @media (max-width: 768px) {
+      .mobile-toggle {
+        display: block;
+      }
+      
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--black);
+        flex-direction: column;
+        padding: 1rem 0;
+      }
+      
+      nav ul.active {
+        display: flex;
+      }
+      
+      nav li {
+        margin: 0;
+        text-align: center;
+        padding: 1rem 0;
+      }
+      
+      .two-column {
+        flex-direction: column;
+      }
+      
+      .stats {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .stat-item {
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">LIVE<span>HOMELY</span></div>
+      <button class="mobile-toggle">☰</button>
+      <nav>
+        <ul>
+          <li><a href="{{ url_for('home') }}">Home</a></li>
+          <li><a href="{{ url_for('booking') }}">Booking</a></li>
+          <li><a href="{{ url_for('about') }}" class="active">About Us</a></li>
+          <li><a href="{{ url_for('rooms') }}">Room</a></li>
+          
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <section class="hero">
+    <h1>About LIVEHOMELY</h1>
+    <p>We're revolutionizing the hotel booking experience with seamless technology and exceptional service.</p>
+  </section>
+  
+  <div class="main-content">
+    <section class="section" id="story">
+      <h2>Our Story</h2>
+      <div class="two-column">
+        <div class="column">
+          <p>Founded in 2018, Live homely began with a simple mission: to create a hotel reservation system that combines technological innovation with a personal touch. Our founders, experienced hoteliers and tech enthusiasts, recognized the need for a solution that serves both hotel managers and their guests.</p>
+          <p>What started as a small startup with just five team members has now grown into a comprehensive platform serving over 500 hotels worldwide. Throughout our journey, we've remained committed to our core values of excellence, innovation, and customer-centricity.</p>
+        </div>
+        <div class="column">
+          <p>Our system was designed from the ground up to address the real challenges faced by hotels of all sizes. By working closely with industry professionals, we've developed features that streamline operations, increase bookings, and enhance the guest experience.</p>
+          <p>Today, Luxe Reservations stands as a testament to what happens when hospitality expertise meets cutting-edge technology. We continue to evolve our platform based on user feedback and industry trends, ensuring our clients always stay ahead of the curve.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="mission">
+      <h2>Our Mission & Values</h2>
+      <p>At LiveHomely, we believe that technology should enhance human connection, not replace it. Our mission is to empower hotels to deliver exceptional experiences through intuitive technology solutions.</p>
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-number">Innovation</div>
+          <p>We're constantly pushing boundaries to bring new features and capabilities to our platform.</p>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">Reliability</div>
+          <p>Our system is designed to be dependable, with 99.9% uptime and responsive support.</p>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">Simplicity</div>
+          <p>Complex technology made simple through intuitive design and user-friendly interfaces.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="team">
+      <h2>Meet Our Team</h2>
+      <p>Behind Luxe Reservations is a diverse team of passionate professionals dedicated to transforming the hospitality industry.</p>
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="team-img">EB</div>
+          <div class="team-info">
+            <h3>Emily Blackwood</h3>
+            <p>Co-Founder & CEO</p>
+            <p>Former hotelier with 15+ years of experience in luxury hospitality management.</p>
+          </div>
+        </div>
+        <div class="team-member">
+          <div class="team-img">MT</div>
+          <div class="team-info">
+            <h3>Kashish Rao</h3>
+            <p>Master Student</p>
+            <p>Tech innovator with a background in developing enterprise software solutions.</p>
+          </div>
+        </div>
+        <div class="team-member">
+          <div class="team-img">SL</div>
+          <div class="team-info">
+            <h3>Dhvani Desai</h3>
+            <p>Master Student</p>
+            <p>Data.</p>
+          </div>
+        </div>
+        <div class="team-member">
+          <div class="team-img">JK</div>
+          <div class="team-info">
+            <h3>Jinal Savaliya</h3>
+            <p>Master Student</p>
+            <p>Data</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="features">
+      <h2>What Sets Us Apart</h2>
+      <div class="two-column">
+        <div class="column">
+          <p>Our reservation system combines powerful features with elegant simplicity. We've eliminated the complexity typically associated with hotel management software, while retaining all the functionality needed to run a successful property.</p>
+          <p>From seamless channel management to intuitive booking interfaces, every aspect of our platform is designed to save time, increase revenue, and enhance the guest experience.</p>
+        </div>
+        <div class="column">
+          <p>Unlike other systems that require extensive training, Luxe Reservations can be implemented and mastered in days, not weeks. Our cloud-based approach means no expensive hardware or complicated installations.</p>
+          <p>And with our dedicated support team available 24/7, you're never alone. We're committed to your success and are always just a click or call away.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section class="cta">
+      <h2>Ready to Transform Your Hotel's Reservation Experience?</h2>
+      <p>Join hundreds of satisfied hotels worldwide who trust Luxe Reservations.</p>
+      <a href="#" class="btn">Schedule a Demo</a>
+    </section>
+  </div>
+  
+  <footer>
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>Luxe Reservations</h3>
+        <p>Revolutionizing hotel bookings with innovative technology and exceptional service.</p>
+        <div class="social-links">
+          <a href="#">f</a>
+          <a href="#">in</a>
+          <a href="#">t</a>
+          <a href="#">ig</a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h3>Products</h3>
+        <ul>
+          <li><a href="#">Booking Engine</a></li>
+          <li><a href="#">Channel Manager</a></li>
+          <li><a href="#">Property Management</a></li>
+          <li><a href="#">Revenue Management</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press Kit</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">System Status</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 Luxe Reservations. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    const navMenu = document.querySelector('nav ul');
+    
+    mobileToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
+    
+    // Scroll animation for sections
+    const sections = document.querySelectorAll('.section');
+    
+    const revealSection = () => {
+      sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (sectionTop < windowHeight * 0.8) {
+          section.classList.add('visible');
+        }
+      });
+    };
+    
+    // Add visible class on load for first visible sections
+    window.addEventListener('load', revealSection);
+    
+    // Reveal sections on scroll
+    window.addEventListener('scroll', revealSection);
+    
+    // Counter animation for stats
+    const counterAnimation = () => {
+      const stats = document.querySelectorAll('.stat-number');
+      
+      if (!stats.length) return;
+      
+      stats.forEach((stat, index) => {
+        setTimeout(() => {
+          stat.classList.add('animated');
+        }, index * 200);
+      });
+    };
+    
+    // Trigger counter animation when the stats section is visible
+    const statsSection = document.querySelector('.stats');
+    if (statsSection) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            counterAnimation();
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {threshold: 0.5});
+      
+      observer.observe(statsSection);
+    }
+  </script>
+</body>
+</html>

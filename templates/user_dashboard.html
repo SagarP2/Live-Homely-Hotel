@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - LiveHomely</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+            color: #333;
+            background-color: #f5f5f0;
+            /* Off-white background */
+        }
+
+        /* Header Styles */
+        header {
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(22, 22, 22, 0.9);
+            /* Black with transparency */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #f5f5f0;
+            /* Off-white color */
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: #d6cba9;
+            /* Beige color */
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #f5f5f0;
+            /* Off-white color */
+            font-weight: 500;
+            font-size: 16px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #d6cba9;
+            /* Beige color */
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #d6cba9;
+            /* Beige color */
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Main Content Section */
+        .main-content {
+            padding: 80px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - 300px);
+        }
+
+        .welcome-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1080&q=80');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            padding: 60px 40px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-banner h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .welcome-banner p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            padding: 20px;
+            background-color: #0a0a0a;
+            color: #f5f5f0;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #d6cba9;
+            color: #0a0a0a;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: #c0b494;
+        }
+
+        .btn-secondary {
+            background-color: #333;
+            color: #f5f5f0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #444;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .profile-card {
+            text-align: center;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border: 3px solid #d6cba9;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .bookings-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .bookings-table th,
+        .bookings-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .bookings-table th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+        }
+
+        .bookings-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .bookings-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-success {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .badge-warning {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .badge-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        /* Flash Messages */
+        .flash-messages {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 5%;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background-color: #d5f5e3;
+            color: #1e8449;
+            border-left: 4px solid #2ecc71;
+        }
+
+        .alert-danger {
+            background-color: #fadbd8;
+            color: #943126;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .alert-warning {
+            background-color: #fef5e7;
+            color: #9a7d0a;
+            border-left: 4px solid #f39c12;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0d0d0d;
+            color: #f5f5f0;
+            padding: 60px 5% 20px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+            max-width: 1400px;
+            margin: 0 auto 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: #d6cba9;
+        }
+
+        .footer-col p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #aaa;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #d6cba9;
+            padding-left: 5px;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #aaa;
+        }
+
+        .contact-icon {
+            margin-right: 10px;
+            color: #d6cba9;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #222;
+            border-radius: 50%;
+            color: #f5f5f0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: #d6cba9;
+            color: #161616;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #222;
+            color: #aaa;
+            font-size: 14px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .header-container {
+                padding: 15px 5%;
+            }
+
+            nav ul {
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: #0a0a0a;
+                padding: 20px 0;
+                text-align: center;
+                transform: translateY(-100%);
+                transition: transform 0.4s ease;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            nav ul.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            nav ul li {
+                margin: 15px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active div:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+
+            .hamburger.active div:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active div:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+
+            .welcome-banner {
+                padding: 40px 20px;
+            }
+
+            .welcome-banner h1 {
+                font-size: 28px;
+            }
+
+            .dashboard-card {
+                min-width: 100%;
+            }
+
+            .bookings-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="{{ url_for('home') }}" class="logo">LIVE<span>HOMELY</span></a>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Main Site</a></li>
+                    <li><a href="{{ url_for('user_dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('rooms') }}">Rooms & Suites</a></li>
+                    <li><a href="{{ url_for('booking') }}">Booking</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="welcome-banner">
+            <h1>Welcome, {{ username }}!</h1>
+            <p>Manage your bookings and profile information from your personal dashboard.</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Profile Card -->
+            <div class="dashboard-card profile-card">
+                <div class="card-header">
+                    <h2>My Profile</h2>
+                </div>
+                <div class="card-body">
+                    <div class="profile-pic">
+                        <img src="https://ui-avatars.com/api/?name={{ username }}&background=d6cba9&color=fff" alt="Profile Picture">
+                    </div>
+                    <h3>{{ username }}</h3>
+                    <p>Member since: {{ 'January 2025' }}</p>
+                    <a href="#" class="btn">Edit Profile</a>
+                </div>
+            </div>
+
+            <!-- Quick Actions Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2>Quick Actions</h2>
+                </div>
+                <div class="card-body">
+                    <p>What would you like to do today?</p>
+                    <a href="{{ url_for('booking') }}" class="btn" style="display: block; margin-bottom: 10px;">Book a Room</a>
+                    <a href="{{ url_for('rooms') }}" class="btn btn-secondary" style="display: block;">View Available Rooms</a>
+                </div>
+            </div>
+
+            <!-- Stats Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2>Your Stats</h2>
+                </div>
+                <div class="card-body">
+                    <p><strong>Total Bookings:</strong> {{ bookings|length if bookings else 0 }}</p>
+                    <p><strong>Upcoming Stays:</strong> {{ bookings|selectattr('status', 'eq', 'confirmed')|list|length if bookings else 0 }}</p>
+                    <p><strong>Loyalty Points:</strong> {{ 150 }}</p>
+                    <p><strong>Member Status:</strong> {{ 'Silver' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bookings Table -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h2>My Bookings</h2>
+            </div>
+            <div class="card-body">
+                {% if bookings and bookings|length > 0 %}
+                <table class="bookings-table">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Room Type</th>
+                            <th>Check-in Date</th>
+                            <th>Check-out Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                        <tr>
+                            <td>#{{ booking.booking_id }}</td>
+                            <td>{{ booking.room.room_type }}</td>
+                            <td>{{ booking.check_in }}</td>
+                            <td>{{ booking.check_out }}</td>
+                            <td>
+                                {% if booking.status == 'confirmed' %}
+                                <span class="badge badge-success">Confirmed</span>
+                                {% elif booking.status == 'pending' %}
+                                <span class="badge badge-warning">Pending</span>
+                                {% else %}
+                                <span class="badge badge-danger">Cancelled</span>
+                                {% endif %}
+                            </td>
+                            <td class="action-buttons">
+                                {% if booking.status != 'cancelled' %}
+                                <a href="{{ url_for('cancel_booking', booking_id=booking.booking_id) }}" class="btn btn-danger btn-sm">Cancel</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>You don't have any bookings yet. <a href="{{ url_for('booking') }}">Book your first stay!</a></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <!-- Left Column with Brand and Social Media -->
+            <div class="footer-col">
+                <h3>LiveHomely</h3>
+                <p>Experience luxury like never before with our premium accommodations and world-class service.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <!-- Middle Column with Quick Links -->
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('rooms') }}">Rooms & Suites</a></li>
+                    <li><a href="{{ url_for('booking') }}">Booking</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="#">Special Offers</a></li>
+                </ul>
+            </div>
+            
+            <!-- Middle Column with Additional Links -->
+            <div class="footer-col">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                </ul>
+            </div>
+            
+            <!-- Right Column with Contact Information -->
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <div class="contact-info">
+                    <i class="fas fa-map-marker-alt contact-icon"></i>
+                    <span>789 Luxury Avenue, Elite Heights, Mumbai 400001</span>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-phone-alt contact-icon"></i>
+                    <span>+91 9876543210</span>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-envelope contact-icon"></i>
+                    <span>reservations@livehomely.com</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2025 LiveHomely Hotel. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('nav ul');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html> 

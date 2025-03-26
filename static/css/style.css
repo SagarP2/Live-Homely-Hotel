@@ -1,0 +1,96 @@
+/* Basic styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background: #333;
+    color: #fff;
+}
+
+img {
+    width: 100px;
+    height: auto;
+}
+
+
+
+/* General form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Labels */
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Inputs and Textareas */
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Image preview */
+img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Buttons */
+button {
+    padding: 10px 20px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #218838;
+}
+
+/* Secondary button styling */
+.btn-secondary {
+    background: #007bff;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #0056b3;
+}

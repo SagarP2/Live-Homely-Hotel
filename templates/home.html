@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Haven Hotel - Your Perfect Getaway</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+            color: #333;
+            background-color: #f5f5f0;
+            /* Off-white background */
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(22, 22, 22, 0.9);
+            /* Black with transparency */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: #0a0a0a;
+            /* Solid black when scrolled */
+            padding: 10px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #f5f5f0;
+            /* Off-white color */
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: #d6cba9;
+            /* Beige color */
+        }
+
+        .logo-icon {
+            width: 10px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #f5f5f0;
+            /* Off-white color */
+            font-weight: 500;
+            font-size: 16px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #d6cba9;
+            /* Beige color */
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #d6cba9;
+            /* Beige color */
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #f5f5f0;
+            /* Off-white color */
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section with Video Slider */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .video-slider {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .video-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .video-slide.active {
+            opacity: 2;
+        }
+
+        .video-slide video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            /* Darker overlay */
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #f5f5f0;
+            /* Off-white color */
+            z-index: 2;
+            width: 80%;
+            max-width: 900px;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.5s;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.7s;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #d6cba9;
+            /* Beige color */
+            color: #161616;
+            /* Black text */
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.9s;
+        }
+
+        .cta-button:hover {
+            background-color: #161616;
+            /* Black background on hover */
+            color: #d6cba9;
+            /* Beige text on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Booking Form Section */
+        .booking-section {
+            padding: 50px 5%;
+            background-color: #161616;
+            /* Black background */
+            position: relative;
+            z-index: 3;
+            margin-top: -100px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .booking-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #f5f5f0;
+            /* Off-white color */
+        }
+
+        .form-control {
+            padding: 12px 15px;
+            border: 1px solid #333;
+            background-color: #222;
+            /* Dark input background */
+            color: #f5f5f0;
+            /* Off-white text */
+            border-radius: 4px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #d6cba9;
+            /* Beige border on focus */
+            box-shadow: 0 0 0 2px rgba(214, 203, 169, 0.2);
+        }
+
+        .submit-btn {
+            background-color: #d6cba9;
+            /* Beige background */
+            color: #161616;
+            /* Black text */
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            grid-column: span 1;
+            align-self: end;
+        }
+
+        .submit-btn:hover {
+            background-color: #f5f5f0;
+            /* Off-white on hover */
+            color: #161616;
+            /* Black text */
+        }
+
+        /* Feature Section */
+        .features {
+            padding: 80px 5%;
+            text-align: center;
+            background-color: #f5f5f0;
+            /* Off-white background */
+        }
+
+        .section-title {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #161616;
+            /* Black text */
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #d6cba9;
+            /* Beige underline */
+        }
+
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background-color: #fff;
+            padding: 30px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 50px;
+            color: #d6cba9;
+            /* Beige icon */
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #161616;
+            /* Black text */
+        }
+
+        .feature-desc {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Feature Video Section */
+        .feature-video {
+            margin-top: 50px;
+            padding: 40px;
+            background-color: #161616;
+            /* Black background */
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-video h3 {
+            color: #f5f5f0;
+            /* Off-white text */
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .video-container {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%;
+            /* 16:9 Aspect Ratio */
+            border-radius: 8px;
+        }
+
+        .video-container iframe,
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Room Showcase with Image Slider */
+        .rooms {
+            padding: 80px 5%;
+            background-color: #d6cba9;
+            /* Black background */
+            text-align: center;
+        }
+
+        .rooms .section-title {
+            color: #f5f5f0;
+            /* Off-white text */
+        }
+
+        .image-slider-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 50px auto 0;
+            overflow: hidden;
+        }
+
+        .image-slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .image-slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .image-slide img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
+            color: #f5f5f0;
+            /* Off-white text */
+            text-align: left;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .slide-content h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .slide-content p {
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #d6cba9;
+            /* Beige text */
+        }
+
+        .slider-nav {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #555;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slider-dot.active {
+            background-color: #d6cba9;
+            /* Beige active dot */
+            transform: scale(1.2);
+        }
+
+        .slider-arrows {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+
+        .arrow {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(22, 22, 22, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #f5f5f0;
+            /* Off-white arrow color */
+        }
+
+        .arrow:hover {
+            background-color: #161616;
+            /* Solid black on hover */
+            color: #d6cba9;
+            /* Beige arrow color on hover */
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 5%;
+            text-align: center;
+            background-color: #f5f5f0;
+            /* Off-white background */
+        }
+
+        .testimonials-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background-color: #161616;
+            /* Black background */
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            max-width: 350px;
+            text-align: left;
+        }
+
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #f5f5f0;
+            /* Off-white text */
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .author-info h4 {
+            color: #f5f5f0;
+            /* Off-white text */
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: #d6cba9;
+            /* Beige text */
+            font-size: 14px;
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            padding: 60px 5%;
+            background-color: #161616;
+            /* Black background */
+            color: #f5f5f0;
+            /* Off-white text */
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            margin-bottom: 30px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 15px;
+            background-color: #222;
+            color: #f5f5f0;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+
+        .newsletter-btn {
+            background-color: #d6cba9;
+            /* Beige button */
+            color: #161616;
+            /* Black text */
+            border: none;
+            padding: 0 30px;
+            border-radius: 0 4px 4px 0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-btn:hover {
+            background-color: #c7ba93;
+            /* Darker beige on hover */
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0d0d0d;
+            /* Darker black */
+            color: #f5f5f0;
+            /* Off-white text */
+            padding: 60px 5% 20px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: #d6cba9;
+            /* Beige underline */
+        }
+
+        .footer-col p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #aaa;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #d6cba9;
+            /* Beige text on hover */
+            padding-left: 5px;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #aaa;
+        }
+
+        .contact-icon {
+            margin-right: 10px;
+            color: #d6cba9;
+            /* Beige icon */
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #222;
+            border-radius: 50%;
+            color: #f5f5f0;
+            /* Off-white text */
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: #d6cba9;
+            /* Beige background on hover */
+            color: #161616;
+            /* Black text on hover */
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #222;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        /* Animation */
+        .fade-in {
+
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Slider Navigation Buttons */
+        .prev,
+        .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 24px;
+            border-radius: 50%;
+            transition: 0.3s ease;
+            z-index: 10;
+        }
+
+        /* Positioning */
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        /* Hover Effects */
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 992px) {
+            .header-container {
+                padding: 15px 5%;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .booking-section {
+                margin-top: -50px;
+            }
+
+            .image-slide img {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+                z-index: 1001;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background-color: #161616;
+                /* Black background */
+                padding: 100px 30px;
+                transition: all 0.5s ease;
+                z-index: 1000;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+            }
+
+            nav.active {
+                right: 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 15px 0;
+            }
+
+            nav ul li a {
+                font-size: 18px;
+            }
+
+            .hamburger.active .line-1 {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+
+            .hamburger.active .line-2 {
+                opacity: 0;
+            }
+
+            .hamburger.active .line-3 {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+
+            .hero-content h1 {
+                font-size: 30px;
+            }
+
+            .hero-content p {
+                font-size: 16px;
+            }
+
+            .booking-form {
+                grid-template-columns: 1fr;
+            }
+
+            .submit-btn {
+                grid-column: 1;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-input {
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+
+            .newsletter-btn {
+                border-radius: 4px;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                padding: 10px 5%;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .hero-content h1 {
+                font-size: 24px;
+            }
+
+            .cta-button {
+                padding: 12px 25px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .feature-title {
+                font-size: 18px;
+            }
+
+            .image-slide img {
+                height: 300px;
+            }
+
+            .arrow {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Hotel Logo" width="150" height="100">
+                LIVE<span>HOMELY</span>
+            </a>
+            <div class="hamburger">
+                <div class="line-1"></div>
+                <div class="line-2"></div>
+                <div class="line-3"></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('rooms') }}">Rooms & Suites</a></li>
+                    <li><a href="{{ url_for('booking') }}">Booking</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    {% if 'user_id' in session %}
+                        {% if session.get('is_admin') %}
+                            <li><a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('user_dashboard') }}">My Dashboard</a></li>
+                        {% endif %}
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section with Video Slider -->
+    <section class="hero">
+        <div class="overlay"></div>
+        <div class="video-slider">
+            <div class="video-slide active">
+                <video autoplay muted loop>
+                    <source src="{{ url_for('static', filename='video/videp.mp4') }}">
+                </video>
+            </div>
+            <div class="video-slide">
+                <img src="" alt="Hotel Pool">
+            </div>
+            <div class="video-slide">
+                <img src="videp.mp4" alt="Hotel Restaurant">
+            </div>
+        </div>
+        <div class="hero-content">
+            <h1>Experience Luxury Like Never Before</h1>
+            <p>Indulge in our 5-star accommodations with breathtaking views and world-class service</p>
+            <a href="{{ url_for('booking') }}" class="cta-button">Book Your Stay Now</a>
+        </div>
+    </section>
+
+    <!-- Booking Form -->
+    <section class="booking-section">
+        <form class="booking-form">
+            <div class="form-group">
+                <label for="check-in">Check In</label>
+                <input type="date" id="check-in" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="check-out">Check Out</label>
+                <input type="date" id="check-out" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="adults">Adults</label>
+                <select id="adults" class="form-control">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="children">Children</label>
+                <select id="children" class="form-control">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <button type="submit" class="submit-btn">Check Availability</button>
+        </form>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">Why Choose Us</h2>
+        <div class="features-container">
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-concierge-bell"></i>
+                </div>
+                <h3 class="feature-title">24/7 Room Service</h3>
+                <p class="feature-desc">Enjoy round-the-clock service with our dedicated staff ready to cater to your
+                    every need.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-wifi"></i>
+                </div>
+                <h3 class="feature-title">Free High-Speed WiFi</h3>
+                <p class="feature-desc">Stay connected with complimentary high-speed internet access throughout the
+                    hotel.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3 class="feature-title">Gourmet Dining</h3>
+                <p class="feature-desc">Experience culinary excellence with our award-winning chefs and diverse menu
+                    options.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-spa"></i>
+                </div>
+                <h3 class="feature-title">Luxury Spa</h3>
+                <p class="feature-desc">Relax and rejuvenate with our premium spa treatments and wellness programs.</p>
+            </div>
+        </div>
+
+
+        <!-- Added Video Section 
+        <div class="feature-video fade-in">
+            <h3>Experience Luxury Haven</h3>
+            <div class="video-container">
+                <video controls>
+                    <source src="videp.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>-->
+    </section>
+
+    <!-- Rooms Showcase with Image Slider -->
+    <section class="rooms">
+        <h2 class="section-title">Our Luxurious Rooms</h2>
+        <div class="image-slider-container">
+            <div class="image-slider">
+                <div class="image-slide active">
+                    <img src="s1.jpg" alt="Deluxe Room">
+                    <div class="slide-content">
+                        <h3>Deluxe Ocean View</h3>
+                        <p>Spacious room with breathtaking ocean views.</p>
+                        <div class="price">From $299 / night</div>
+                    </div>
+                </div>
+                <div class="image-slide">
+                    <img src="s2.jpg" alt="Executive Suite">
+                    <div class="slide-content">
+                        <h3>Executive Suite</h3>
+                        <p>Elegant suite with premium furnishings.</p>
+                        <div class="price">From $499 / night</div>
+                    </div>
+                </div>
+                <div class="image-slide">
+                    <img src="s3.jpg" alt="Family Room">
+                </div>
+            </div>
+            <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+            <button class="next" onclick="moveSlide(1)">&#10095;</button>
+        </div>
+    </section>
+
+    <script>
+        let slideIndex = 0;
+        showSlides(slideIndex);
+
+        function moveSlide(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function showSlides(n) {
+            let slides = document.getElementsByClassName("image-slide");
+            if (n >= slides.length) { slideIndex = 0 }
+            if (n < 0) { slideIndex = slides.length - 1 }
+
+            for (let slide of slides) {
+                slide.style.display = "none";
+            }
+            slides[slideIndex].style.display = "block";
+        }
+    </script>
+
+
+<footer>
+    <div class="footer-container">
+        <!-- Left Column with Brand and Social Media -->
+        <div class="footer-col">
+            <h3>LiveHomely</h3>
+            <p>Experience luxury like never before with our premium accommodations and world-class service.</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        
+        <!-- Middle Column with Quick Links -->
+        <div class="footer-col">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('rooms') }}">Rooms & Suites</a></li>
+                <li><a href="{{ url_for('booking') }}">Booking</a></li>
+                <li><a href="{{ url_for('about') }}">About Us</a></li>
+                <li><a href="#">Special Offers</a></li>
+            </ul>
+        </div>
+        
+        <!-- Middle Column with Additional Links -->
+        <div class="footer-col">
+            <h3>Resources</h3>
+            <ul class="footer-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Support</a></li>
+                <li><a href="#">Sitemap</a></li>
+            </ul>
+        </div>
+        
+        <!-- Right Column with Contact Information -->
+        <div class="footer-col">
+            <h3>Contact Us</h3>
+            <div class="contact-info">
+                <i class="fas fa-map-marker-alt contact-icon"></i>
+                <span>789 Luxury Avenue, Elite Heights, Mumbai 400001</span>
+            </div>
+            <div class="contact-info">
+                <i class="fas fa-phone-alt contact-icon"></i>
+                <span>+91 9876543210</span>
+            </div>
+            <div class="contact-info">
+                <i class="fas fa-envelope contact-icon"></i>
+                <span>reservations@livehomely.com</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="copyright">
+        &copy; 2025 LiveHomely Hotel. All rights reserved.
+    </div>
+</footer>
+    <script>
+        const roomSelect = document.getElementById('roomTypeSelect');
+        const singleRooms = document.getElementById('singleRooms');
+        const doubleRooms = document.getElementById('doubleRooms');
+        const suiteRooms = document.getElementById('suiteRooms');
+        
+        roomSelect.addEventListener('change', function() {
+            // Hide all room categories
+            singleRooms.classList.remove('active');
+            doubleRooms.classList.remove('active');
+            suiteRooms.classList.remove('active');
+            
+            // Show selected room category
+            if (this.value === 'single') {
+                singleRooms.classList.add('active');
+            } else if (this.value === 'double') {
+                doubleRooms.classList.add('active');
+            } else if (this.value === 'suite') {
+                suiteRooms.classList.add('active');
+            }
+        });
+        
+        const footerDropdown = document.getElementById('footerDropdown');
+        footerDropdown.addEventListener('change', function() {
+            // Simulating navigation - in a real application would redirect to the selected page
+            console.log(`Navigating to ${this.value} page`);
+        });
+    </script>
+</body>
+
+</html>

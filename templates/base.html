@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hotel Reservation{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        .navbar {
+            background-color: #007bff !important;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .footer {
+            background: #343a40;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #f8f9fa;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #ffc107;
+        }
+
+        .content {
+            min-height: 80vh;
+        }
+
+        .flash-messages {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ✅ Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% if session.get('is_admin') %}{{ url_for('admin_dashboard') }}{% else %}{{ url_for('user_dashboard') }}{% endif %}">Hotel Management</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                {% if 'user_id' in session %}
+                    <li class="nav-item">
+                        {% if session.get('is_admin') %}
+                            <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a>
+                        {% else %}
+                            <a class="nav-link" href="{{ url_for('user_dashboard') }}">My Dashboard</a>
+                        {% endif %}
+                    </li>
+                    {% if session.get('is_admin') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('add_room') }}">Add Room</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ✅ Flash Messages -->
+<div class="container">
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+</div>
+
+<!-- ✅ Content Block -->
+<div class="container content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!-- ✅ Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2025 Hotel Reservation System | All Rights Reserved</p>
+        <p>
+            <a href="{{ url_for('home') }}">Home</a> | 
+            {% if 'user_id' in session %}
+                {% if session.get('is_admin') %}
+                    <a href="{{ url_for('admin_dashboard') }}">Dashboard</a> | 
+                {% else %}
+                    <a href="{{ url_for('user_dashboard') }}">Dashboard</a> | 
+                {% endif %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+        </p>
+    </div>
+</footer>
+
+<!-- ✅ Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<!-- ✅ Custom JavaScript -->
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
