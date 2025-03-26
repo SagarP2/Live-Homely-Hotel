@@ -1,6 +1,6 @@
 # 🏨 Live Homely Hotel
 
-Live Homely Hotel is a web-based hotel management system that allows users to browse available rooms, make reservations, and manage hotel services efficiently. The project is built using **Python (Flask/Django) and HTML**.
+Live Homely Hotel is a **hotel booking management system** built using **Python** and **HTML**. It allows users to browse available rooms, make reservations, and manage hotel bookings efficiently. The system ensures a seamless experience for both customers and hotel administrators.  
 
 ## 🚀 Features
 
