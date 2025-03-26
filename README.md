@@ -19,12 +19,6 @@ Live Homely Hotel is a web-based hotel management system that allows users to br
 - **Authentication:** JWT / OAuth  
 - **Hosting:** AWS / Heroku  
 
-## 🎥 Demo
-
-🚀 **Live Demo:** [Click Here](https://your-demo-link.com) <!-- Replace with actual demo link -->
-
-![Live Homely Hotel Preview](https://via.placeholder.com/600x300?text=Project+Preview) <!-- Replace with an actual screenshot -->
-
 ## 📂 Installation & Setup
 
 1️⃣ Clone the repository  
@@ -45,15 +39,11 @@ pip install -r requirements.txt
 
 python app.py  # Flask
 
-# OR
-
 python manage.py runserver  # Django
 
 5️⃣ Open your browser and go to
 
 http://127.0.0.1:5000  # Flask
-
-# OR
 
 http://127.0.0.1:8000  # Django
 
