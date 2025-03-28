@@ -414,7 +414,12 @@
             <a href="{{ url_for('home') }}">Home</a>
             <a href="{{ url_for('about') }}">About</a>
             <a href="{{ url_for('rooms') }}">Room</a>
-            <a href="{{ url_for('booking') }}">Booking</a>
+            {% for room in rooms %}
+            <li>
+                <a href="{{ url_for('book', room_id=room.room_id) }}" class="btn">Book Now</a>
+            </li>
+            {% endfor %}
+            
         </div>
     </header>
 
@@ -461,6 +466,7 @@
                 <input type="text" name="username" placeholder="Username" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <a href="{{ url_for('forgot_password') }}">Forget Your Password?</a>
+
                 <button type="submit">Sign In</button>
             </form>
         </div>
@@ -501,7 +507,13 @@
                 <ul class="footer-links">
                     <li><a href="{{ url_for('home') }}">Home</a></li>
                     <li><a href="{{ url_for('rooms') }}">Rooms & Suites</a></li>
-                    <li><a href="{{ url_for('booking') }}">Booking</a></li>
+                    {% for room in rooms %}
+                    <li>
+                        <a href="{{ url_for('book', room_id=room.room_id) }}" class="btn">Book Now</a>
+                    </li>
+                    {% endfor %}
+                    
+
                     <li><a href="{{ url_for('about') }}">About Us</a></li>
                     <li><a href="#">Special Offers</a></li>
                 </ul>

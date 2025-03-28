@@ -1,0 +1,14 @@
+# test_relationship.py
+
+from app import db
+from models import Booking, Room
+
+# Query bookings with their room information
+bookings = db.session.query(Booking).join(Room).all()
+
+# Display the data
+if bookings:
+    for booking in bookings:
+        print(f"Booking ID: {booking.booking_id}, Room ID: {booking.room_id}, Room Type: {booking.room.room_type}")
+else:
+    print("No bookings found.")

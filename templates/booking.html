@@ -278,7 +278,61 @@
     <div class="main-content">
         <div class="booking-container">
             <h1>Book Your Stay</h1>
-            <form id="bookingForm" action="#" method="post">
+            <body>
+
+                <div class="container">
+                    <h1>Room Booking</h1>
+                
+                    <div id="room-details">
+                        <p id="room-info">Loading room details...</p>
+                    </div>
+                
+                    <!-- Booking Form -->
+                    <form action="{{ url_for('submit_booking') }}" method="POST">
+                        <!-- CSRF token if using Flask-WTF -->
+                        <!-- Hidden fields to pass room_id and user_id -->
+                        <input type="hidden" name="room_id" value="{{ room.room_id }}">
+                        <input type="hidden" name="user_id" value="{{ session['user_id'] }}">
+                        
+                        <label for="check_in">Check-in:</label>
+                        <input type="date" id="check_in" name="check_in" required>
+                        
+                        <label for="check_out">Check-out:</label>
+                        <input type="date" id="check_out" name="check_out" required>
+                        
+                        <label for="guests">Guests:</label>
+                        <input type="number" id="guests" name="guests" min="1" max="10" required>
+                        
+                        <button type="submit">Book Room</button>
+                    </form>
+                    
+                </div>
+                
+                <script>
+                    // ✅ Extract query parameters from URL
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const roomId = urlParams.get('room_id');
+                    const roomType = urlParams.get('type');
+                
+                    // ✅ Display the room info on the page
+                    const roomInfoElement = document.getElementById('room-info');
+                    if (roomId && roomType) {
+                        roomInfoElement.innerHTML = `You are booking Room ID: <strong>${roomId}</strong> of type: <strong>${roomType}</strong>`;
+                        
+                        // Set hidden fields with room_id
+                        document.getElementById('room_id').value = roomId;
+                    } else {
+                        roomInfoElement.innerHTML = "Room details not found.";
+                    }
+                </script>
+
+
+
+
+
+
+
+            <!-- <form id="bookingForm" action="#" method="post">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="firstName">First Name</label>
@@ -360,7 +414,7 @@
                 </div>
 
                 <button type="submit" class="btn-book">Confirm Booking</button>
-            </form>
+            </form> -->
         </div>
     </div>
   <!-- Footer Added -->

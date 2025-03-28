@@ -943,8 +943,14 @@
                 <ul>
                     <li><a href="{{ url_for('home') }}">Home</a></li>
                     <li><a href="{{ url_for('rooms') }}">Rooms & Suites</a></li>
-                    <li><a href="{{ url_for('booking') }}">Booking</a></li>
+                    {% for room in rooms %}
+                    <li>
+                        <a href="{{ url_for('booking', room_id=room.room_id) }}" class="btn">Book Now</a>
+                    </li>
+                    {% endfor %}
+                    
                     <li><a href="{{ url_for('about') }}">About Us</a></li>
+
                     {% if 'user_id' in session %}
                         {% if session.get('is_admin') %}
                             <li><a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a></li>
@@ -979,7 +985,14 @@
         <div class="hero-content">
             <h1>Experience Luxury Like Never Before</h1>
             <p>Indulge in our 5-star accommodations with breathtaking views and world-class service</p>
-            <a href="{{ url_for('booking') }}" class="cta-button">Book Your Stay Now</a>
+            {% for room in rooms %}
+            <li>
+                <a href="{{ url_for('booking', room_id=room.room_id) }}" class="btn">Book Now</a>
+            </li>
+            {% endfor %}
+            
+            </div>
+            
         </div>
     </section>
 
@@ -1072,7 +1085,7 @@
         <div class="image-slider-container">
             <div class="image-slider">
                 <div class="image-slide active">
-                    <img src="s1.jpg" alt="Deluxe Room">
+                    <img src="static/image/s1.jpg" alt="Deluxe Room">
                     <div class="slide-content">
                         <h3>Deluxe Ocean View</h3>
                         <p>Spacious room with breathtaking ocean views.</p>
@@ -1080,7 +1093,7 @@
                     </div>
                 </div>
                 <div class="image-slide">
-                    <img src="s2.jpg" alt="Executive Suite">
+                    <img src="static/image/s2.jpg" alt="Executive Suite">
                     <div class="slide-content">
                         <h3>Executive Suite</h3>
                         <p>Elegant suite with premium furnishings.</p>
@@ -1088,7 +1101,7 @@
                     </div>
                 </div>
                 <div class="image-slide">
-                    <img src="s3.jpg" alt="Family Room">
+                    <img src="static/image/s3.jpg" alt="Family Room">
                 </div>
             </div>
             <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
@@ -1137,7 +1150,6 @@
             <ul class="footer-links">
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('rooms') }}">Rooms & Suites</a></li>
-                <li><a href="{{ url_for('booking') }}">Booking</a></li>
                 <li><a href="{{ url_for('about') }}">About Us</a></li>
                 <li><a href="#">Special Offers</a></li>
             </ul>

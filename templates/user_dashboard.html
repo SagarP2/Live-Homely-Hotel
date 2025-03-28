@@ -486,7 +486,8 @@
                     <li><a href="{{ url_for('home') }}">Main Site</a></li>
                     <li><a href="{{ url_for('user_dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ url_for('rooms') }}">Rooms & Suites</a></li>
-                    <li><a href="{{ url_for('booking') }}">Booking</a></li>
+                    <li><a href="{{ url_for('booking', room_id=1) }}">Book Room</a></li>
+
                     <li><a href="{{ url_for('about') }}">About Us</a></li>
                     <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 </ul>
@@ -542,8 +543,12 @@
                 </div>
                 <div class="card-body">
                     <p>What would you like to do today?</p>
-                    <a href="{{ url_for('booking') }}" class="btn" style="display: block; margin-bottom: 10px;">Book a Room</a>
-                    <a href="{{ url_for('rooms') }}" class="btn btn-secondary" style="display: block;">View Available Rooms</a>
+
+                    <a href="{{ url_for('rooms') }}" class="btn btn-secondary" style="display: block;">View All Rooms</a>
+                    <a href="{{ url_for('booking', room_id=1) }}" class="btn" style="display: block; margin-bottom: 10px;">Book Room</a>
+
+
+
                 </div>
             </div>
 
@@ -588,13 +593,14 @@
                             <td>{{ booking.check_out }}</td>
                             <td>
                                 {% if booking.status == 'confirmed' %}
-                                <span class="badge badge-success">Confirmed</span>
+                                    <span class="badge badge-success">Confirmed</span>
                                 {% elif booking.status == 'pending' %}
-                                <span class="badge badge-warning">Pending</span>
+                                    <span class="badge badge-warning">Pending</span>
                                 {% else %}
-                                <span class="badge badge-danger">Cancelled</span>
+                                    <span class="badge badge-danger">Cancelled</span>
                                 {% endif %}
                             </td>
+                            
                             <td class="action-buttons">
                                 {% if booking.status != 'cancelled' %}
                                 <a href="{{ url_for('cancel_booking', booking_id=booking.booking_id) }}" class="btn btn-danger btn-sm">Cancel</a>
@@ -605,7 +611,9 @@
                     </tbody>
                 </table>
                 {% else %}
-                <p>You don't have any bookings yet. <a href="{{ url_for('booking') }}">Book your first stay!</a></p>
+                <p>You don't have any bookings yet. <a href="{{ url_for('booking', room_id=1) }}">Book Room</a>
+</p>
+
                 {% endif %}
             </div>
         </div>
@@ -632,7 +640,9 @@
                 <ul class="footer-links">
                     <li><a href="{{ url_for('home') }}">Home</a></li>
                     <li><a href="{{ url_for('rooms') }}">Rooms & Suites</a></li>
-                    <li><a href="{{ url_for('booking') }}">Booking</a></li>
+                    <a href="{{ url_for('booking', room_id=1) }}">Book Room</a>
+
+
                     <li><a href="{{ url_for('about') }}">About Us</a></li>
                     <li><a href="#">Special Offers</a></li>
                 </ul>

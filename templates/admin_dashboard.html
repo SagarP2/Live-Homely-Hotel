@@ -226,7 +226,8 @@
             margin-top: 20px;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #ddd;
             padding: 12px;
             text-align: left;
@@ -424,36 +425,6 @@
             border-radius: 4px;
         }
 
-        /* Sort controls */
-        .sort-controls {
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sort-form {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        select {
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-            cursor: pointer;
-        }
-
-        select:hover {
-            border-color: #aaa;
-        }
-
-        label {
-            font-weight: 500;
-        }
-
         /* Responsive Design */
         @media screen and (max-width: 768px) {
             .header-container {
@@ -532,7 +503,10 @@
                     <li><a href="{{ url_for('home') }}">Main Site</a></li>
                     <li><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ url_for('rooms') }}">Rooms & Suites</a></li>
-                    <li><a href="{{ url_for('booking') }}">Booking</a></li>
+                    {% for room in rooms %}
+                    <li><a href="{{ url_for('booking', room_id=room.room_id) }}">Booking ({{ room.room_type }})</a></li>
+                    {% endfor %}
+
                     <li><a href="{{ url_for('about') }}">About Us</a></li>
                     <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 </ul>
@@ -548,13 +522,13 @@
     <!-- Flash Messages -->
     <div class="flash-messages">
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
         {% endwith %}
     </div>
 
@@ -573,7 +547,8 @@
                 </div>
                 <div class="card-body">
                     <div class="admin-pic">
-                        <img src="https://ui-avatars.com/api/?name=Admin&background=d6cba9&color=fff" alt="Admin Picture">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=d6cba9&color=fff"
+                            alt="Admin Picture">
                     </div>
                     <h3>{{ username }}</h3>
                     <p>Administrator</p>
@@ -587,8 +562,10 @@
                 </div>
                 <div class="card-body">
                     <p>Manage hotel operations:</p>
-                    <a href="{{ url_for('add_room') }}" class="btn" style="display: block; margin-bottom: 10px;">Add New Room</a>
-                    <a href="{{ url_for('rooms') }}" class="btn btn-secondary" style="display: block;">View All Rooms</a>
+                    <a href="{{ url_for('add_room') }}" class="btn" style="display: block; margin-bottom: 10px;">Add New
+                        Room</a>
+                    <a href="{{ url_for('rooms') }}" class="btn btn-secondary" style="display: block;">View All
+                        Rooms</a>
                 </div>
             </div>
 
@@ -599,9 +576,12 @@
                 </div>
                 <div class="card-body">
                     <p><strong>Total Rooms:</strong> {{ rooms|length if rooms else 0 }}</p>
-                    <p><strong>Active Bookings:</strong> {{ bookings|selectattr('status', 'eq', 'confirmed')|list|length if bookings else 0 }}</p>
-                    <p><strong>Pending Bookings:</strong> {{ bookings|selectattr('status', 'eq', 'pending')|list|length if bookings else 0 }}</p>
-                    <p><strong>Available Rooms:</strong> {{ rooms|selectattr('availability', 'eq', true)|list|length if rooms else 0 }}</p>
+                    <p><strong>Active Bookings:</strong> {{ bookings|selectattr('status', 'eq', 'confirmed')|list|length
+                        if bookings else 0 }}</p>
+                    <p><strong>Pending Bookings:</strong> {{ bookings|selectattr('status', 'eq', 'pending')|list|length
+                        if bookings else 0 }}</p>
+                    <p><strong>Available Rooms:</strong> {{ rooms|selectattr('availability', 'eq', true)|list|length if
+                        rooms else 0 }}</p>
                 </div>
             </div>
         </div>
@@ -610,25 +590,6 @@
         <div class="dashboard-card">
             <div class="card-header">
                 <h2>Room Management</h2>
-                <div class="sort-controls">
-                    <form action="{{ url_for('admin_dashboard') }}" method="GET" class="sort-form">
-                        <input type="hidden" name="sort_rooms_by" value="{{ sort_rooms_by }}">
-                        <input type="hidden" name="sort_rooms_order" value="{{ sort_rooms_order }}">
-                        
-                        <label for="sort_rooms_by">Sort by:</label>
-                        <select name="sort_rooms_by" id="sort_rooms_by" onchange="this.form.submit()">
-                            <option value="created_at" {% if sort_rooms_by == 'created_at' %}selected{% endif %}>Date Added</option>
-                            <option value="price" {% if sort_rooms_by == 'price' %}selected{% endif %}>Price</option>
-                            <option value="room_type" {% if sort_rooms_by == 'room_type' %}selected{% endif %}>Room Type</option>
-                        </select>
-                        
-                        <label for="sort_rooms_order">Order:</label>
-                        <select name="sort_rooms_order" id="sort_rooms_order" onchange="this.form.submit()">
-                            <option value="desc" {% if sort_rooms_order == 'desc' %}selected{% endif %}>Descending</option>
-                            <option value="asc" {% if sort_rooms_order == 'asc' %}selected{% endif %}>Ascending</option>
-                        </select>
-                    </form>
-                </div>
             </div>
             <div class="card-body">
                 {% if rooms and rooms|length > 0 %}
@@ -661,14 +622,16 @@
                             <td>{{ room.description|truncate(50) }}</td>
                             <td>
                                 {% if room.room_image %}
-                                <img src="{{ url_for('static', filename='images/' + room.room_image) }}" class="room-img" alt="{{ room.room_type }}">
+                                <img src="{{ url_for('static', filename='images/' + room.room_image) }}"
+                                    class="room-img" alt="{{ room.room_type }}">
                                 {% else %}
                                 <span>No image</span>
                                 {% endif %}
                             </td>
                             <td>{{ room.amenity|truncate(30) }}</td>
                             <td class="action-buttons">
-                                <a href="{{ url_for('delete_room', room_id=room.room_id) }}" class="btn btn-danger btn-sm">Delete</a>
+                                <a href="{{ url_for('delete_room', room_id=room.room_id) }}"
+                                    class="btn btn-danger btn-sm">Delete</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -681,77 +644,63 @@
         </div>
 
         <!-- Bookings Management -->
-        <div class="dashboard-card">
-            <div class="card-header">
-                <h2>Booking Management</h2>
-                <div class="sort-controls">
-                    <form action="{{ url_for('admin_dashboard') }}" method="GET" class="sort-form">
-                        <input type="hidden" name="sort_rooms_by" value="{{ sort_rooms_by }}">
-                        <input type="hidden" name="sort_rooms_order" value="{{ sort_rooms_order }}">
-                        
-                        <label for="sort_bookings_by">Sort by:</label>
-                        <select name="sort_bookings_by" id="sort_bookings_by" onchange="this.form.submit()">
-                            <option value="created_at" {% if sort_bookings_by == 'created_at' %}selected{% endif %}>Date Added</option>
-                            <option value="check_in" {% if sort_bookings_by == 'check_in' %}selected{% endif %}>Check-in Date</option>
-                            <option value="status" {% if sort_bookings_by == 'status' %}selected{% endif %}>Status</option>
-                        </select>
-                        
-                        <label for="sort_bookings_order">Order:</label>
-                        <select name="sort_bookings_order" id="sort_bookings_order" onchange="this.form.submit()">
-                            <option value="desc" {% if sort_bookings_order == 'desc' %}selected{% endif %}>Descending</option>
-                            <option value="asc" {% if sort_bookings_order == 'asc' %}selected{% endif %}>Ascending</option>
-                        </select>
-                    </form>
-                </div>
-            </div>
-            <div class="card-body">
-                {% if bookings and bookings|length > 0 %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Booking ID</th>
-                            <th>User</th>
-                            <th>Room Type</th>
-                            <th>Check-in</th>
-                            <th>Check-out</th>
-                            <th>Guests</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for booking in bookings %}
-                        <tr>
-                            <td>#{{ booking.booking_id }}</td>
-                            <td>{{ booking.user.username }} ({{ booking.user.email }})</td>
-                            <td>{{ booking.room.room_type }}</td>
-                            <td>{{ booking.check_in }}</td>
-                            <td>{{ booking.check_out }}</td>
-                            <td>{{ booking.guests }}</td>
-                            <td>
-                                {% if booking.status == 'confirmed' %}
-                                <span class="badge badge-success">Confirmed</span>
-                                {% elif booking.status == 'pending' %}
-                                <span class="badge badge-warning">Pending</span>
-                                {% else %}
-                                <span class="badge badge-danger">Cancelled</span>
-                                {% endif %}
-                            </td>
-                            <td class="action-buttons">
-                                {% if booking.status == 'pending' %}
-                                <a href="{{ url_for('confirm_booking', booking_id=booking.booking_id) }}" class="btn btn-success btn-sm">Confirm</a>
-                                {% endif %}
-                                <a href="{{ url_for('delete_booking', booking_id=booking.booking_id) }}" class="btn btn-danger btn-sm">Delete</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                <p>No bookings available.</p>
-                {% endif %}
-            </div>
-        </div>
+      <!-- Bookings Management -->
+<div class="dashboard-card">
+    <div class="card-header">
+        <h2>Booking Management</h2>
+    </div>
+    <div class="card-body">
+        {% if bookings and bookings|length > 0 %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>User</th>
+                    <th>Room Type</th>
+                    <th>Check-in</th>
+                    <th>Check-out</th>
+                    <th>Guests</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Bookings Table -->
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.booking_id }}</td>
+                    <td>{{ booking.username }}</td> <!-- Use alias from the query -->
+                    <td>{{ booking.room_type }}</td> <!-- Use alias from the query -->
+                    <td>{{ booking.check_in }}</td>
+                    <td>{{ booking.check_out }}</td>
+                    <td>{{ booking.guests }}</td>
+                    <td>
+                        {% if booking.status == 'pending' %}
+                        <span class="badge badge-warning">Pending</span>
+                        {% elif booking.status == 'confirmed' %}
+                        <span class="badge badge-success">Confirmed</span>
+                        {% else %}
+                        <span class="badge badge-danger">Cancelled</span>
+                        {% endif %}
+                    </td>
+                    <td class="action-buttons">
+                        {% if booking.status == 'pending' %}
+                        <a href="{{ url_for('accept_booking', booking_id=booking.booking_id) }}"
+                            class="btn btn-success btn-sm">Accept</a>
+                        <a href="{{ url_for('cancel_booking', booking_id=booking.booking_id) }}"
+                            class="btn btn-danger btn-sm">Cancel</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}  <!-- ✅ Correctly closing the loop here -->
+            </tbody>
+        </table>
+        {% else %}
+        <p>No bookings available.</p>
+        {% endif %}
+    </div>
+</div>
+
     </div>
 
     <!-- Footer -->
@@ -768,19 +717,23 @@
                     <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
-            
+
             <!-- Middle Column with Quick Links -->
             <div class="footer-col">
                 <h3>Quick Links</h3>
                 <ul class="footer-links">
                     <li><a href="{{ url_for('home') }}">Home</a></li>
                     <li><a href="{{ url_for('rooms') }}">Rooms & Suites</a></li>
-                    <li><a href="{{ url_for('booking') }}">Booking</a></li>
+                    {% for room in rooms %}
+                    <li><a href="{{ url_for('booking', room_id=room.room_id) }}">Booking ({{ room.room_type }})</a></li>
+                    {% endfor %}
+
+
                     <li><a href="{{ url_for('about') }}">About Us</a></li>
                     <li><a href="#">Special Offers</a></li>
                 </ul>
             </div>
-            
+
             <!-- Middle Column with Admin Links -->
             <div class="footer-col">
                 <h3>Admin Tools</h3>
@@ -792,7 +745,7 @@
                     <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 </ul>
             </div>
-            
+
             <!-- Right Column with Contact Information -->
             <div class="footer-col">
                 <h3>Contact Us</h3>
@@ -810,7 +763,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="copyright">
             &copy; 2025 LiveHomely Hotel. All rights reserved.
         </div>
@@ -820,7 +773,7 @@
         // Mobile menu toggle
         const hamburger = document.querySelector('.hamburger');
         const navMenu = document.querySelector('nav ul');
-        
+
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
@@ -828,4 +781,4 @@
     </script>
 </body>
 
-</html> 
+</html>
